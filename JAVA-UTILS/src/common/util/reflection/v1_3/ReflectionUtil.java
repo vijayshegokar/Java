@@ -16,6 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import test.resources.Bean;
+import test.resources.Entity;
+import test.resources.SubBean;
+import test.resources.SubEntity;
+
 /**
  * This class can be used for reflection purpose. Both class should match the getter and setter.
  * @author Vijay Shegokar
@@ -234,7 +239,7 @@ public class ReflectionUtil {
 							if(pTypeClazz.isInstance(to)) {
 								// Instance found for same class.
 								try {
-									toMethod.invoke(to, toMethod.getDeclaringClass().cast(copy(toMethod.getDeclaringClass(), value)));
+									toMethod.invoke(to, toMethod.getDeclaringClass().cast(copy(toMethod.getDeclaringClass(), value, excludeClassesMap)));
 								} catch (Exception e1) {
 									System.err.println(e1.getMessage() + ": Not able to copy the same instance of given object");
 									e1.printStackTrace();
@@ -242,7 +247,7 @@ public class ReflectionUtil {
 							} else {
 								if(excludeClassesMap.get(pTypeClazz) != null && excludeClassesMap.get(pTypeClazz).equals(fromMethod.getReturnType())) {
 									try {
-										toMethod.invoke(to, pTypeClazz.cast(copy(pTypeClazz, value)));
+										toMethod.invoke(to, pTypeClazz.cast(copy(pTypeClazz, value, excludeClassesMap)));
 									} catch (Exception e2) {
 										e2.printStackTrace();
 									}

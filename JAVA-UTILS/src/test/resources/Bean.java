@@ -1,14 +1,14 @@
-package common.util.reflection.v1_3;
+package test.resources;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Entity {
+public class Bean {
 
 	private String id;
-	private List<SubEntity> list = new ArrayList<SubEntity>();
+	private List<SubBean> list = new ArrayList<SubBean>();
 	private List<Integer> ages = new ArrayList<Integer>();
-	private SubEntity bean = new SubEntity();
+	private SubBean bean = new SubBean();
 
 	public String getId() {
 		return id;
@@ -18,11 +18,11 @@ public class Entity {
 		this.id = id;
 	}
 
-	public List<SubEntity> getList() {
+	public List<SubBean> getList() {
 		return list;
 	}
 
-	public void setList(List<SubEntity> list) {
+	public void setList(List<SubBean> list) {
 		this.list = list;
 	}
 
@@ -34,12 +34,18 @@ public class Entity {
 		this.ages = ages;
 	}
 
-	public SubEntity getBean() {
+	public SubBean getBean() {
 		return bean;
 	}
 
-	public void setBean(SubEntity bean) {
+	public void setBean(SubBean bean) {
 		this.bean = bean;
+	}
+
+	@Override
+	public String toString() {
+		return "Bean [id=" + id + ", list=" + list + ", ages=" + ages
+				+ ", bean=" + bean + "]";
 	}
 
 }

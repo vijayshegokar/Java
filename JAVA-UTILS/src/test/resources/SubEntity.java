@@ -1,4 +1,4 @@
-package common.util.reflection.v1_3;
+package test.resources;
 
 public class SubEntity {
 
