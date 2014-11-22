@@ -1,4 +1,4 @@
-package common.util.reflection;
+package common.util.reflection.v1_0;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -8,9 +8,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * This class can be used for reflection purpose. Both class should match the getter and setter.
+ * This class can be used for reflection one bean to another. Both class should match the getter(s) and setter(s).
  * @author Vijay Shegokar
  * @version 1.0
+ * @date 07-February-2014
  */
 public class ReflectionUtil {
 	

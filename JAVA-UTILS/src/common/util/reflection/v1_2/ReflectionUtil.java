@@ -1,4 +1,4 @@
-package common.util.reflection;
+package common.util.reflection.v1_2;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * This class can be used for reflection purpose. Both class should match the getter and setter.
  * @author Vijay Shegokar
- * @version 1.1
+ * @version 1.2
  * @date 28-September-2014
  */
 public class ReflectionUtil {
@@ -103,7 +103,6 @@ public class ReflectionUtil {
 						setValues(returnType, value, fromMethod, to, toMethodsList, isBoolean);
 					} else {
 						if(value != null) {
-							System.out.println(fromMethod.getName());
 							setValues(returnType, value, fromMethod, to, toMethodsList, isBoolean);
 						}
 					}
@@ -122,7 +121,7 @@ public class ReflectionUtil {
 	 * @param isBoolean If the given method is primitive boolean type because getter for it starts with "is".
 	 * @return true is method is getter
 	 */
-	public static boolean isGetter(Method method, boolean isBoolean) {
+	private static boolean isGetter(Method method, boolean isBoolean) {
 		if(isBoolean && !method.getName().startsWith("is"))
 			return false;
 		if (!isBoolean && !method.getName().startsWith("get"))
@@ -139,7 +138,7 @@ public class ReflectionUtil {
 	 * @param method Method which needs to be check
 	 * @return true is method is setter
 	 */
-	public static boolean isSetter(Method method) {
+	private static boolean isSetter(Method method) {
 		if (!method.getName().startsWith("set"))
 			return false;
 		if (method.getParameterTypes().length != 1)
@@ -159,7 +158,7 @@ public class ReflectionUtil {
 	 * @throws InvocationTargetException If method access is denied
 	 * @throws IllegalAccessException If access denied to access given class
 	 */
-	public static void setValues(Class<?> returnType, Object value, final Method fromMethod, final Object to, Set<Method> toMethodsList, boolean isBoolean) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+	private static void setValues(Class<?> returnType, Object value, final Method fromMethod, final Object to, Set<Method> toMethodsList, boolean isBoolean) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
 		if(!returnType.isPrimitive()) {
 			fromMethod.getReturnType().cast(value);
 		} 
@@ -172,10 +171,22 @@ public class ReflectionUtil {
 					fromSubstringIndex = 2;
 				if(toMethod.getName().substring(3).equals(fromMethod.getName().substring(fromSubstringIndex))) {
 					try {
-						System.out.println(toMethod.getName());
 						toMethod.invoke(to, value);
 					} catch (Exception e) {
-						throw new InvocationTargetException(e, "Data type mismatched or access specifier is wrong. Error on method: TO method = " + toMethod.getName() + " FROM method = " + fromMethod.getName());
+						if(value != null) {
+							Class<?>[] parameterTypes = toMethod.getParameterTypes();
+							if(parameterTypes[0].isInstance(to)) {
+								// Instance found for same class.
+								try {
+									toMethod.invoke(to, toMethod.getDeclaringClass().cast(copy(toMethod.getDeclaringClass(), value)));
+								} catch (Exception e1) {
+									System.err.println(e1.getMessage() + ": Not able to copy the same instance of given object");
+									e1.printStackTrace();
+								}
+							}
+						} else {
+							throw new InvocationTargetException(e, "Data type mismatched or access specifier is wrong. Error on method: TO method = " + toMethod.getName() + " FROM method = " + fromMethod.getName());
+						}
 					}
 					toMethodsList.remove(toMethod);
 					break;
