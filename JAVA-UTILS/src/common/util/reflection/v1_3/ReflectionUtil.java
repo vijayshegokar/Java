@@ -8,18 +8,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import test.resources.Bean;
-import test.resources.Entity;
-import test.resources.SubBean;
-import test.resources.SubEntity;
 
 /**
  * This class can be used for reflection purpose. Both class should match the getter and setter.
@@ -391,28 +385,4 @@ public class ReflectionUtil {
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
-		Entity from = new Entity();
-		from.getAges().add(14);
-		from.getAges().add(25);
-		from.setId("ID");
-		List<SubEntity> list = new ArrayList<SubEntity>();
-		SubEntity s1 = new SubEntity();
-		s1.setName("S1");
-		list.add(s1);
-		SubEntity s2 = new SubEntity();
-		s1.setName("S2");
-		list.add(s2);
-		from.setList(list);
-		from.setBean(s1);
-		System.out.println("Original Entity : " + from);
-		Map<Class<?>, Class<?>> map = new HashMap<Class<?>, Class<?>>();
-		map.put(SubBean.class, SubEntity.class);
-		Bean to = ReflectionUtil.copy(Bean.class, from, map);
-		for (SubBean subBean : to.getList()) {
-			System.out.println(subBean);
-		}
-		System.out.println(to);
-	}
-
 }
