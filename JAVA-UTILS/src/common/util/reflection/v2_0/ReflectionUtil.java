@@ -19,6 +19,7 @@ import java.util.Set;
  * This class can be used for reflection purpose. Both class should match the getter and setter.
  * @author Vijay Shegokar
  * @version 2.0
+ * @versionDescription This version supports collections list & set copy.
  * @date 10-December-2014
  */
 public class ReflectionUtil {

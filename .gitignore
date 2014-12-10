@@ -1,1 +1,4 @@
 /JAVA-UTILS/*.classpath
+/JAVA-UTILS/src/test/resources/Bean.java
+/JAVA-UTILS/src/test/resources/Entity.java
+/JAVA-UTILS/src/test/resources/Test.java
